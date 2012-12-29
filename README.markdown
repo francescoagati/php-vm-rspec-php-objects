@@ -1,11 +1,37 @@
-# Php-rspec #
+Example of testing php objects with rspec via php_vm
 
-The Php-rspec project ...
+```
 
-## Installation ##
+require 'php_vm'
 
-## Usage ##
 
-## Copyright ##
+describe 'test class' do
+  
+  before(:each) do
+    
+    @class_code = '
+	class HelloClass {
+	    public function __construct($name) {
+	      $this->name = $name;
+	    }
 
-Copyright (c) <2012> <vagrant>
+	    public function getName() {
+	    return $this->name;
+	    }
+	}
+    '
+    
+  end
+  
+  it "test for class instance property" do
+    PHPVM.exec(@class_code)
+    HelloClass = PHPVM::get_class("HelloClass")
+    
+    HelloClass.new("pippa").getName.should == ("pippa")
+  end
+  
+  
+end
+
+
+```
